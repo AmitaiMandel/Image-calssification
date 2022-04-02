@@ -1,7 +1,7 @@
 # Waste-calssification by using neural networks
 This project was created for educational purposes using a Kaggle [dataset]( https://www.kaggle.com/rayhanzamzamy/non-and-biodegradable-waste-dataset).
 
-# Exploratory data analysis
+## Exploratory data analysis
 The dataset contains 250K images representing both of the main classes of this problem: biodegradable and non-biodegradable.
 - Biodegradable (B): food, fruits, vegetables that can be naturally decomposed by microorganisms and, most of them, could be converted into compost.
 - Non-biodegradable (N): the material that cannot be naturally decomposed: such as plastics, metals, inorganic elements, etc. Most of these materials can be recycled or reused for new purposes.
@@ -24,11 +24,11 @@ print(f"Notice that now pixels are between {np.min(first_image)} and {np.max(fir
 
 ```
 
-# Neural networks
+## Neural networks
 The first neural networks that where used for this problem, included - CNN, VGG16, EfficientNet, Inception V3.
 This was the roc curves for those networks:
 
 
-# CLIP
+## CLIP
 
 Finally 
