@@ -12,7 +12,7 @@ The original dataset contains 150K of images that were augmented using flips and
 
 Before training the different models, a preprocessing technique called rescaling was apllied to normalize the images in the dataset. The RGB channel values are in the [0, 255] range, and this is not ideal for a neural network:
 
-'''
+'''python
 
 normalization_layer = Rescaling(1./255)
 
