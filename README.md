@@ -13,13 +13,15 @@ The original dataset contains 150K of images that were augmented using flips and
 Before training the different models, a preprocessing technique called rescaling was apllied to normalize the images in the dataset. The RGB channel values are in the [0, 255] range, and this is not ideal for a neural network:
 
 '''python
+
 normalization_layer = Rescaling(1./255)
 
 normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
 image_batch, labels_batch = next(normalized_ds.as_numpy_iterator())
 first_image = image_batch[0].astype(int)
-# Notice that now pixel values are in `[0, 1]`.
+### Notice that now pixel values are in `[0, 1]`.
 print(f"Notice that now pixels are between {np.min(first_image)} and {np.max(first_image)}")
+
 '''
 
 # Neural networks
