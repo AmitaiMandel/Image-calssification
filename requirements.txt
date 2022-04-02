@@ -1,0 +1,32 @@
+! pip install tensorflow-addons -q
+! pip install --yes -c pytorch pytorch=1.7.1 torchvision cudatoolkit=11.0
+! pip install ftfy regex tqdm
+! pip install git+https://github.com/openai/CLIP.git
+! pip install gradio
+
+
+import os
+import numpy as np
+import cv2
+import pandas as pd
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.utils import image_dataset_from_directory
+from tensorflow.keras.metrics import Accuracy, AUC, Precision, Recall
+from tensorflow_addons.metrics import F1Score
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import BatchNormalization, Conv2D, Dense, Dropout, Flatten, MaxPooling2D, Rescaling
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+from tensorflow.keras.regularizers import l1, l2
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, accuracy_score, recall_score, precision_score, f1_score, classification_report
+from tensorflow.keras.optimizers import RMSprop, SGD
+import torch
+import clip
+from PIL import Image
+from sklearn.linear_model import LogisticRegression
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+import torchvision
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
