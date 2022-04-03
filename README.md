@@ -28,7 +28,7 @@ print(f"Notice that now pixels are between {np.min(first_image)} and {np.max(fir
 The first neural networks that where used for this problem, included - CNN, VGG16, EfficientNet, Inception V3.
 This was the roc curves for those networks:
 
-![roc](https://myoctocat.com/assets/images/base-octocat.svg)
+![roc](https://https://github.com/AmitaiMandel/Image-calssification/blob/main/roc.png)
 
 
 
