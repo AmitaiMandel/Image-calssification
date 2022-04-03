@@ -31,7 +31,75 @@ This was the roc curves for those networks:
 ![roc](https://github.com/AmitaiMandel/Image-calssification/blob/main/ROC_Curve.png)
 
 
+As shown, EfficientNet got the best result out of these 4 methodes. 
+
 
 ## CLIP
 
-Finally 
+Finally, we decided to try a relatively new neural network introduced by OpenAI called [CLIP](https://openai.com/blog/clip/).
+CLIP neural network was pre trained on pairs of text and images found across the internet.
+
+The assumption that was made, that if the images contain enough information in order to extract related text, there is a good chance, we will find some kind of unique similarity for the two different classes of the images. And in another words, we wish to explore whether or not the embedded vectors of the images hold enough information, in order identify similarity within the two classes and difference between the 2 classes.
+
+There were 4 steps for this method:
+1. Create a training data set that would be constructed from the embedded vectors of the original training data of the images, using CLIP.
+2. Create a test data set that would be constructed from the embedded vectors of the original test data of the images, using CLIP.
+3. Train Logistic regression model on the new training data.
+4. Predict and evaluate according to the new test set.
+
+```python
+
+# train_all_pre_proclist and test_all_pre_proclist contain the file paths of the images.
+# train_all_labels and test_all_labels contain the actual labels.
+
+
+#  Create a training data set that would be constructed from the embedded vectors of the original training data of the images
+all_features = []
+BATCH_SIZE = 900
+
+ln = len(train_all_pre_proclist)
+
+for i in tqdm(range(0,ln,BATCH_SIZE)):
+    images = [
+        preprocess(
+            Image.open(file)
+        ) for file in train_all_pre_proclist[i:i+BATCH_SIZE]
+    ]
+    image_input = torch.tensor(np.stack(images)).to(device)
+    with torch.no_grad():
+        image_features = model.encode_image(image_input)
+        all_features.append(image_features)
+
+train_features = torch.cat(all_features).cpu().numpy()
+        
+
+#  Create a test data set that would be constructed from the embedded vectors of the original test data of the images
+all_features = []
+BATCH_SIZE = 900
+
+ln = len(test_all_pre_proclist)
+
+for i in tqdm(range(0,ln,BATCH_SIZE)):
+    images = [
+        preprocess(
+            Image.open(file)
+        ) for file in test_all_pre_proclist[i:i+BATCH_SIZE]
+    ]
+    image_input = torch.tensor(np.stack(images)).to(device)
+    with torch.no_grad():
+        image_features = model.encode_image(image_input)
+        all_features.append(image_features)
+        
+test_features = torch.cat(all_features).cpu().numpy()   
+
+
+#  Train Logistic regression model on the new training data.
+from sklearn.linear_model import LogisticRegression
+
+classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000)
+classifier.fit(train_features, train_all_labels)
+
+#  Predict and evaluate according to the new test set.
+predictions = classifier.predict(test_features)
+        
+```
