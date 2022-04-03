@@ -106,7 +106,7 @@ predictions = classifier.predict(test_features)
 
 This neural network received the results:
 
-! [cm](https://github.com/AmitaiMandel/Image-calssification/blob/main/CLIP%20cm.png)
+![cm](https://github.com/AmitaiMandel/Image-calssification/blob/main/CLIP%20cm.png)
 ![Class report](https://github.com/AmitaiMandel/Image-calssification/blob/main/classification_report.png)
 
 
