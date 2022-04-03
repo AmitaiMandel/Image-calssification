@@ -111,3 +111,43 @@ This neural network received the results:
 
 
 
+The model was served using gradio in the following way on huggingface:
+
+```python
+import gradio as gr
+from joblib import load
+import torch
+import clip
+from PIL import Image
+from sklearn.linear_model import LogisticRegression
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+import torchvision
+import numpy as np
+
+CLF_FILENAME = 'lr-model.pkl'
+clf = load(CLF_FILENAME)
+
+# Load the model
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model, preprocess = clip.load('ViT-B/32', device)
+
+def classify_image(img):
+  #inp = img.reshape((-1, 64, 64, 3))
+  im = Image.fromarray(img, mode="RGB")
+  image_pre_process = [preprocess(im)]
+  image_input = torch.tensor(np.stack(image_pre_process)).to(device)
+  with torch.no_grad():
+    image_features = model.encode_image(image_input)
+  image_data = image_features.cpu().numpy()      
+
+  pred = clf.predict(image_data)
+  outputs = {0: '🌱 Biodegradable', 1: '💀 Non-biodegradable'}
+  return outputs[int(pred >= 0.5)]
+  
+image = gr.inputs.Image(shape=(64,64))
+iface = gr.Interface(fn=classify_image, inputs=image, outputs="text", interpretation="default", examples=["Pizza.JPG", "poly.JPG"])
+iface.launch(debug=True)
+```
+
+Check it out yourself - [app](https://huggingface.co/spaces/Amitai/Image-Classification)
