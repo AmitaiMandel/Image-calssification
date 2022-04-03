@@ -150,4 +150,4 @@ iface = gr.Interface(fn=classify_image, inputs=image, outputs="text", interpreta
 iface.launch(debug=True)
 ```
 
-Check it out yourself - [app](https://huggingface.co/spaces/Amitai/Image-Classification)
+Check it out yourself - [Waste classification](https://huggingface.co/spaces/Amitai/Image-Classification)
