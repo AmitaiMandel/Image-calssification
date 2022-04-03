@@ -103,3 +103,8 @@ classifier.fit(train_features, train_all_labels)
 predictions = classifier.predict(test_features)
         
 ```
+
+This neural network received the results:
+
+
+
