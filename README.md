@@ -1,6 +1,9 @@
 # Waste-calssification by using neural networks
 This project was created for educational purposes using a Kaggle [dataset]( https://www.kaggle.com/rayhanzamzamy/non-and-biodegradable-waste-dataset).
 
+The application takes an image as input and predicts whether it shows a biodegradable substance, using Hugging Face as the deployment platform.
+Check it out yourself - [Waste classification](https://amitai-image-classification.hf.space/?__theme=system&deep_link=Nr96QX_28DA)
+
 ## Exploratory data analysis
 The dataset contains 250K images representing both of the main classes of this problem: biodegradable and non-biodegradable.
 - Biodegradable (B): food, fruits, vegetables that can be naturally decomposed by microorganisms and, most of them, could be converted into compost.
@@ -162,5 +165,3 @@ if __name__ == "__main__":
     iface.launch()
 
 ```
-
-Check it out yourself - [Waste classification](https://amitai-image-classification.hf.space/?__theme=system&deep_link=Nr96QX_28DA)
