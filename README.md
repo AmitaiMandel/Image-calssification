@@ -119,35 +119,48 @@ from joblib import load
 import torch
 import clip
 from PIL import Image
-from sklearn.linear_model import LogisticRegression
-from torch.utils.data import DataLoader
-from tqdm import tqdm
-import torchvision
 import numpy as np
+import pickle
+import pickletools
 
-CLF_FILENAME = 'lr-model.pkl'
+CLF_FILENAME = "lr-model.pkl"
+
 clf = load(CLF_FILENAME)
-
-# Load the model
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model, preprocess = clip.load('ViT-B/32', device)
+model, preprocess = clip.load("ViT-B/32", device)
+
 
 def classify_image(img):
-  #inp = img.reshape((-1, 64, 64, 3))
-  im = Image.fromarray(img, mode="RGB")
-  image_pre_process = [preprocess(im)]
-  image_input = torch.tensor(np.stack(image_pre_process)).to(device)
-  with torch.no_grad():
-    image_features = model.encode_image(image_input)
-  image_data = image_features.cpu().numpy()      
+    # img comes from gr.Image(type="numpy")
+    im = Image.fromarray(img, mode="RGB")
+    image_pre_process = [preprocess(im)]
+    image_input = torch.tensor(np.stack(image_pre_process)).to(device)
 
-  pred = clf.predict(image_data)
-  outputs = {0: '🌱 Biodegradable', 1: '💀 Non-biodegradable'}
-  return outputs[int(pred >= 0.5)]
-  
-image = gr.inputs.Image(shape=(64,64))
-iface = gr.Interface(fn=classify_image, inputs=image, outputs="text", interpretation="default", examples=["Pizza.JPG", "poly.JPG"])
-iface.launch(debug=True)
+    with torch.no_grad():
+        image_features = model.encode_image(image_input)
+
+    image_data = image_features.cpu().numpy()
+    pred = clf.predict(image_data)  # e.g., [0] or [1]
+
+    outputs = {0: '🌱 Biodegradable', 1: '💀 Non-biodegradable'}
+    return outputs[int(pred[0] >= 0.5)]  # be explicit about indexing
+
+
+image = gr.Image(
+    type="numpy",
+    label="Upload an image",
+)
+
+iface = gr.Interface(
+    fn=classify_image,
+    inputs=image,
+    outputs=gr.Textbox(label="Prediction"),
+    examples=["Pizza.JPG", "poly.JPG"],
+)
+
+if __name__ == "__main__":
+    iface.launch()
+
 ```
 
-Check it out yourself - [Waste classification](https://huggingface.co/spaces/Amitai/Image-Classification)
+Check it out yourself - [Waste classification](https://amitai-image-classification.hf.space/?__theme=system&deep_link=Nr96QX_28DA)
